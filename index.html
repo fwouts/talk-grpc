@@ -102,6 +102,26 @@
 
         <section data-markdown>
           <script type="text/template">
+			## Builder pattern
+
+			```java
+			class User {
+				...
+				public String getName();
+
+				static class Builder {
+					public String setName(String value);
+					public void clearName();
+
+					public User build();
+				}
+			}
+			```
+          </script>
+        </section>
+
+        <section data-markdown>
+          <script type="text/template">
 			## Binary encoding
 			
 			```protobuf
@@ -133,6 +153,67 @@
 			✅ Field names can change <!-- .element: class="fragment" -->
 
 			🔴 Field numbers cannot <!-- .element: class="fragment" -->
+          </script>
+        </section>
+
+        <section data-markdown>
+          <script type="text/template">
+			## hasField() and getField() <!-- .element: class="no-uppercase" -->
+
+			```java
+			class User {
+				public boolean hasName();
+				public String getName();
+			}
+			```
+
+			```java
+			user.hasName()
+			true
+			```
+			 <!-- .element: class="fragment" -->
+
+			```java
+			user.getName()
+			"Bob Dylan"
+			```
+			 <!-- .element: class="fragment" -->
+
+			```java
+			user.hasName()
+			false
+			```
+			 <!-- .element: class="fragment" -->
+
+			```java
+			user.getName()
+			""
+			```
+			 <!-- .element: class="fragment" -->
+          </script>
+        </section>
+
+        <section data-markdown>
+          <script type="text/template">
+			## Default values
+
+			```java
+			message User {
+			    optional string name = 1 [default = "Mike"];
+			}
+			```
+
+			```java
+			user.hasName()
+			false
+			```
+			 <!-- .element: class="fragment" -->
+
+			```java
+			user.getName()
+			"Mike"
+			```
+			 <!-- .element: class="fragment" -->
           </script>
         </section>
 
@@ -170,6 +251,44 @@
 			 <!-- .element: class="fragment" -->
 
 			Everything is optional. <!-- .element: class="fragment" -->
+
+			No default values. <!-- .element: class="fragment" -->
+          </script>
+        </section>
+
+        <section data-markdown data-background-color="#26c">
+          <script type="text/template">
+            Now let's talk about gRPC
+          </script>
+        </section>
+
+        <section data-markdown>
+          <script type="text/template">
+			### What is gRPC?
+			
+			“gRPC is a modern open source high performance RPC framework that can run in any environment.”
+          </script>
+        </section>
+
+        <section data-markdown>
+          <script type="text/template">
+			```protobuf
+			service HelloService {
+				rpc SayHello (HelloRequest) returns (HelloResponse);
+			}
+			
+			message HelloRequest {
+				string greeting = 1;
+			}
+			
+			message HelloResponse {
+				string reply = 1;
+			}
+			```
+
+			Wait... Is this protobuf? <!-- .element: class="fragment" -->
+
+			No! <!-- .element: class="fragment" -->
           </script>
         </section>
       </div>
