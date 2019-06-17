@@ -74,14 +74,23 @@
 				optional int32 age = 3;
 			}
 			```
-          </script>
-        </section>
 
-        <section data-markdown>
-          <script type="text/template">
-			## Protobuf wire format
+			#### Example in Ruby
+			<!-- .element: class="fragment" -->
+
+			```ruby
+			require 'google/protobuf'
+			require 'generated_proto_types'
+
+			user = User.new(:first_name => "Bob", :last_name => "Dylan")
+			user.age = 78
+
+			encoded_data = User.encode(user)
+			decoded = User.decode(encoded_data)
+			```
+			<!-- .element: class="fragment" -->
           </script>
-        </section>
+		</section>
 
         <section data-markdown>
           <script type="text/template">
@@ -140,7 +149,7 @@
 				optional int32 age = 3;
 			}
 			```
-			
+
 			## Protobuf 3 <!-- .element: class="fragment" -->
 
 			```protobuf
