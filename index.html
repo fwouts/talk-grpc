@@ -41,6 +41,83 @@
             # gRPC <!-- .element: class="no-uppercase" -->
           </script>
         </section>
+
+        <section data-markdown>
+          <script type="text/template">
+            # ...and Protocol Buffers <!-- .element: class="no-uppercase" -->
+            ## aka "protobuf" <!-- .element: class="fragment" -->
+          </script>
+        </section>
+
+        <section data-markdown>
+          <script type="text/template">
+            Two different things
+
+            ... often used together <!-- .element: class="fragment" -->
+          </script>
+        </section>
+
+        <section data-markdown data-background-color="#26c">
+          <script type="text/template">
+            First, let's talk about Protocol Buffers
+          </script>
+        </section>
+
+        <section data-markdown>
+          <script type="text/template">
+			## users.proto
+
+			```protobuf
+			message User {
+				required string first_name = 1;
+				required string last_name = 2;
+				optional int32 age = 3;
+			}
+			```
+          </script>
+        </section>
+
+        <section data-markdown>
+          <script type="text/template">
+			## Protobuf wire format
+          </script>
+        </section>
+
+        <section data-markdown>
+          <script type="text/template">
+			## Binary encoding
+			
+			```protobuf
+			message User {
+			    optional int32 age = 1;
+			}
+			```
+			<!-- .element: class="fragment" -->
+
+			```js
+			age = 150
+			"08 96 01"
+			```
+			<!-- .element: class="fragment" -->
+
+			```protobuf
+			message SomeOtherThing {
+			    optional int32 foo = 1;
+			}
+			```
+			<!-- .element: class="fragment" -->
+
+			```js
+			foo = 150
+			"08 96 01"
+			```
+			<!-- .element: class="fragment" -->
+
+			✅ Field names can change <!-- .element: class="fragment" -->
+
+			🔴 Field numbers cannot <!-- .element: class="fragment" -->
+          </script>
+        </section>
       </div>
     </div>
 
