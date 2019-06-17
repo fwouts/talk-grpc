@@ -31,6 +31,15 @@
       .no-uppercase {
         text-transform: none !important;
       }
+
+	  .big-diagram {
+		  border: none !important;
+		  width: 100vw !important;
+	  }
+
+	  .black-border {
+		  border-color: black !important;
+	  }
     </style>
   </head>
   <body>
@@ -88,7 +97,7 @@
 
 			```ruby
 			require 'google/protobuf'
-			require 'generated_proto_types'
+			require 'generated_proto_types' # codegen!
 
 			user = User.new(:first_name => "Bob", :last_name => "Dylan")
 			user.age = 78
@@ -289,6 +298,114 @@
 			Wait... Is this protobuf? <!-- .element: class="fragment" -->
 
 			No! <!-- .element: class="fragment" -->
+          </script>
+        </section>
+
+        <section data-markdown>
+          <script type="text/template">
+			![Service to Client Diagram](./images/grpc-service-client-diagram.svg) <!-- .element: class="big-diagram" -->
+          </script>
+		</section>
+
+        <section data-markdown>
+          <script type="text/template">
+			## RPC framework based on HTTP/2
+
+			- Single TCP connection <!-- .element: class="fragment" -->
+			- Multiple simultaneous streams <!-- .element: class="fragment" -->
+			- Cancellable requests <!-- .element: class="fragment" -->
+          </script>
+		</section>
+
+        <section data-markdown>
+          <script type="text/template">
+			## HTTP/2 in one slide
+
+			![HTTP2 streams](./images/http2-streams.svg) <!-- .element: class="black-border" -->
+
+			[Source](https://developers.google.com/web/fundamentals/performance/http2)
+          </script>
+		</section>
+
+        <section data-markdown>
+          <script type="text/template">
+			## Example request
+
+			```sh
+			HEADERS (flags = END_HEADERS)
+			:method = POST
+			:scheme = http
+			:path = /google.pubsub.v2.PublisherService/CreateTopic
+			:authority = pubsub.googleapis.com
+			grpc-timeout = 1S
+			content-type = application/grpc+proto
+			grpc-encoding = gzip
+			authorization = Bearer y235.wef315yfh138vh31hv93hv8h3v
+
+			DATA (flags = END_STREAM)
+			[Length-Prefixed Message]
+			```
+          </script>
+        </section>
+
+        <section data-markdown>
+          <script type="text/template">
+			## Example response
+
+			```sh
+			HEADERS (flags = END_HEADERS)
+			:status = 200
+			grpc-encoding = gzip
+			content-type = application/grpc+proto
+
+			DATA
+			[Length-Prefixed Message]
+
+			HEADERS (flags = END_STREAM, END_HEADERS)
+			grpc-status = 0 # OK
+			trace-proto-bin = jher831yy13JHy3hc
+			```
+          </script>
+        </section>
+
+        <section data-markdown>
+          <script type="text/template">
+			## Streaming RPCs
+
+			```protobuf
+			rpc SayHello(HelloRequest) returns (HelloResponse);
+			```
+			<!-- .element: class="fragment" -->
+
+			```protobuf
+			rpc LotsOfReplies(HelloRequest)
+			    returns (stream HelloResponse);
+			```
+			<!-- .element: class="fragment" -->
+
+			```protobuf
+			rpc LotsOfGreetings(stream HelloRequest)
+			    returns (HelloResponse);
+			```
+			<!-- .element: class="fragment" -->
+
+			```protobuf
+			rpc BidiHello(stream HelloRequest)
+			    returns (stream HelloResponse);
+			```
+			<!-- .element: class="fragment" -->
+          </script>
+        </section>
+
+        <section data-markdown>
+          <script type="text/template">
+			## gRPC + protobuf
+
+			- gRPC often used with protobuf <!-- .element: class="fragment" -->
+			- protobuf 3 is recommended <!-- .element: class="fragment" -->
+			- JSON can be used (no codegen) <!-- .element: class="fragment" -->
+			
+			[Source](https://grpc.io/blog/grpc-with-json) <!-- .element: class="fragment" -->
           </script>
         </section>
       </div>
